@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 //require_once(dirname(__FILE__).'/CANotAPI.inc.php');
 //require_once(dirname(__FILE__).'/resources/fir.data.inc.php');
@@ -9,13 +12,9 @@ $curl = curl_init();
 // Set some options - we are passing in a useragent too here
 curl_setopt_array($curl, [
     CURLOPT_RETURNTRANSFER => 1,
-    CURLOPT_URL => 'http://testcURL.com',
+    CURLOPT_URL => 'https://api.vatcan.ca/IF84l6Y1utjILKlk/roster',
     CURLOPT_USERAGENT => 'Codular Sample cURL Request',
-    CURLOPT_POST => 1,
-    CURLOPT_POSTFIELDS => [
-        item1 => 'value',
-        item2 => 'value2'
-    ]
+	CURLOPT_SSL_VERIFYPEER => false,
 ]);
 // Send the request & save response to $resp
 $resp = curl_exec($curl);
@@ -32,9 +31,11 @@ curl_close($curl);
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
+<textarea>
 	<?php
 	
 	echo $resp;
 	?>
+</textarea>
 </body>
 </html>
