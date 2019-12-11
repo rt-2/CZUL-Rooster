@@ -21,7 +21,12 @@ $resp = curl_exec($curl);
 // Close request to clear up some resources
 curl_close($curl);
 
-$allMembers = json_decode($resp);
+$allMembers = json_decode($resp)->facility->roster;
+$allMembers = json_decode(json_encode($allMembers), true);
+
+usort($allMembers, function($a, $b) {
+    return $b['rating'] - $a['rating'];
+});
 
 ?>
 <html>
@@ -38,5 +43,22 @@ $allMembers = json_decode($resp);
 	echo $resp;
 	?>
 </textarea>
+
+	<table border="true" cellpadding="5">
+		<?php
+		
+		foreach($allMembers as $thisMember)
+		{
+			?>
+			<tr>
+				<td><?=$thisMember['cid']?></td>
+				<td><?=$thisMember['fname'].' '.$thisMember['lname']?></td>
+				<td><?=$thisMember['rating']?></td>
+				
+			</tr>
+			<?php
+		}
+		?>
+	</table>
 </body>
 </html>
