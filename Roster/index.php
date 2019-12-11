@@ -58,7 +58,6 @@ $allGuestStates = json_decode($allGuestStates)->GUESTS_TRAINING_STATE;
 $allGuestStates = json_decode(json_encode($allGuestStates), true);
 
 
-
 class RosterMemberInfosFinal
 {
 	public $data;
@@ -180,8 +179,16 @@ class RosterGuestInfosFinal
 	<h2>Guests: </h2>
 
 	<table border="true" cellpadding="5">
+		<tr>
 		<?php
-		
+		$thoseColumnObj = new RosterGuestInfosFinal();
+			foreach(array_keys($thoseColumnObj->data) as $columnName)
+			{
+				echo '<td><b>'.strToUpper($columnName).'</b></td>';
+			}
+		?>
+		</tr>
+		<?php
 		
 		
 		foreach($allGuestStates as $cid => $attrs)
