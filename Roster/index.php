@@ -7,6 +7,24 @@ error_reporting(E_ALL);
 //require_once(dirname(__FILE__).'/CANotAPI.inc.php');
 //require_once(dirname(__FILE__).'/resources/fir.data.inc.php');
 
+
+$ratingNames = [
+	'', // 0 (not used)
+	'OBS', // 1
+	'S1', // 2
+	'S2', // 3
+	'S3', // 4
+	'C1', // 5
+	'C2', // 6 (not used)
+	'C3', // 7
+	'I1', // 8
+	'I2', // 9 (not used)
+	'I3', // 10
+	'SUP', // 11
+];
+
+
+
 // Get cURL resource
 $curl = curl_init();
 // Set some options - we are passing in a useragent too here
@@ -53,7 +71,7 @@ usort($allMembers, function($a, $b) {
 			<tr>
 				<td><?=$thisMember['cid']?></td>
 				<td><?=$thisMember['fname'].' '.$thisMember['lname']?></td>
-				<td><?=$thisMember['rating']?></td>
+				<td><?=$ratingNames[$thisMember['rating']]?></td>
 				
 			</tr>
 			<?php
