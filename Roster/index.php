@@ -115,7 +115,7 @@ class RosterGuestInfosFinal
 		$thoseColumnObj = new RosterMemberInfosFinal();
 			foreach(array_keys($thoseColumnObj->data) as $columnName)
 			{
-				echo '<td>'.$columnName.'</td>';
+				echo '<td><b>'.strToUpper($columnName).'</b></td>';
 			}
 		?>
 		</tr>
