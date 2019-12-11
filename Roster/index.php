@@ -21,6 +21,7 @@ $resp = curl_exec($curl);
 // Close request to clear up some resources
 curl_close($curl);
 
+$allMembers = json_decode($resp);
 
 ?>
 <html>
