@@ -100,7 +100,7 @@ class RosterGuestInfosFinal
 	<style>
 		body {
 			font-family: sans-serif;
-			/*padding: 20px 10px;*/
+			color: rgb(45, 45, 75);
 		}
 		table td {
 			text-align: center;
@@ -129,78 +129,6 @@ class RosterGuestInfosFinal
 <body>
 
 	<div id="mainContent">
-		<div class="para">
-
-			<h2>Members: </h2>
-			
-			<table border="true" cellpadding="5">
-				<tr>
-				<?php
-				$thoseColumnObj = new RosterMemberInfosFinal();
-					foreach(array_keys($thoseColumnObj->data) as $columnName)
-					{
-						echo '<td><b>'.strToUpper($columnName).'</b></td>';
-					}
-				?>
-				</tr>
-				<?php
-				
-				
-				foreach($allMembers as $thisMember)
-				{
-					$thisAllInfos = new RosterMemberInfosFinal();
-					$thisAllInfos->data['cid'] = $thisMember['cid'];
-					$thisAllInfos->data['name'] = $thisMember['fname'].' '.$thisMember['lname'];
-					$thisAllInfos->data['rating'] = $thisMember['rating'];
-					
-					if($thisAllInfos->data['rating'] >= 8)
-					{
-						$allInstructors[$thisAllInfos->data['cid']] = $thisAllInfos->data['name'];
-					}
-					
-					if(array_key_exists($thisAllInfos->data['cid'], $allControllerTrainingStates))
-					{
-						$thisAllInfos->data['active'] = true;
-						$thisTrainingState = $allControllerTrainingStates[$thisAllInfos->data['cid']];
-						
-						$thisAllInfos->data['position'] = $thisTrainingState['position'];
-						
-						if(array_key_exists('instructor', $thisTrainingState))
-						{
-							$thisAllInfos->data['instructor'] = $thisTrainingState['instructor'];
-							if(strlen($thisAllInfos->data['instructor']) > 0)
-							{
-								if(array_key_exists($thisAllInfos->data['instructor'], $allInstructors))
-								{
-									$thisAllInfos->data['instructor'] = $allInstructors[$thisAllInfos->data['instructor']].' ('.$thisAllInfos->data['instructor'].')';
-								}
-							}
-						}
-					}
-					
-					
-					$thisAllInfos->data['rating'] = $ratingNames[$thisAllInfos->data['rating']];
-					$thisAllInfos->data['active'] = ($thisAllInfos->data['active'] === true)? 'Oui': 'Non';
-					
-					
-					
-					
-					?>
-					<tr>
-						<?php
-							foreach($thisAllInfos->data as $key => $value)
-							{
-								echo '<td>'.$value.'</td>';
-							}
-						
-						?>
-						
-					</tr>
-					<?php
-				}
-				?>
-			</table>
-		</div>
 		<div class="para">
 
 			<h2>Guests: </h2>
@@ -275,6 +203,79 @@ class RosterGuestInfosFinal
 						</tr>
 						<?php
 					}
+				}
+				?>
+			</table>
+		</div>
+		
+		<div class="para">
+
+			<h2>Members: </h2>
+			
+			<table border="true" cellpadding="5">
+				<tr>
+				<?php
+				$thoseColumnObj = new RosterMemberInfosFinal();
+					foreach(array_keys($thoseColumnObj->data) as $columnName)
+					{
+						echo '<td><b>'.strToUpper($columnName).'</b></td>';
+					}
+				?>
+				</tr>
+				<?php
+				
+				
+				foreach($allMembers as $thisMember)
+				{
+					$thisAllInfos = new RosterMemberInfosFinal();
+					$thisAllInfos->data['cid'] = $thisMember['cid'];
+					$thisAllInfos->data['name'] = $thisMember['fname'].' '.$thisMember['lname'];
+					$thisAllInfos->data['rating'] = $thisMember['rating'];
+					
+					if($thisAllInfos->data['rating'] >= 8)
+					{
+						$allInstructors[$thisAllInfos->data['cid']] = $thisAllInfos->data['name'];
+					}
+					
+					if(array_key_exists($thisAllInfos->data['cid'], $allControllerTrainingStates))
+					{
+						$thisAllInfos->data['active'] = true;
+						$thisTrainingState = $allControllerTrainingStates[$thisAllInfos->data['cid']];
+						
+						$thisAllInfos->data['position'] = $thisTrainingState['position'];
+						
+						if(array_key_exists('instructor', $thisTrainingState))
+						{
+							$thisAllInfos->data['instructor'] = $thisTrainingState['instructor'];
+							if(strlen($thisAllInfos->data['instructor']) > 0)
+							{
+								if(array_key_exists($thisAllInfos->data['instructor'], $allInstructors))
+								{
+									$thisAllInfos->data['instructor'] = $allInstructors[$thisAllInfos->data['instructor']].' ('.$thisAllInfos->data['instructor'].')';
+								}
+							}
+						}
+					}
+					
+					
+					$thisAllInfos->data['rating'] = $ratingNames[$thisAllInfos->data['rating']];
+					$thisAllInfos->data['active'] = ($thisAllInfos->data['active'] === true)? 'Oui': 'Non';
+					
+					
+					
+					
+					?>
+					<tr>
+						<?php
+							foreach($thisAllInfos->data as $key => $value)
+							{
+								echo '<td>'.$value.'</td>';
+							}
+						
+						?>
+						
+					</tr>
+					<?php
 				}
 				?>
 			</table>
