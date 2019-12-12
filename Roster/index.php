@@ -101,6 +101,7 @@ class RosterGuestInfosFinal
 		body {
 			font-family: sans-serif;
 			color: rgb(45, 45, 75);
+			font-size: 14px;
 		}
 		table td {
 			text-align: center;
@@ -175,7 +176,7 @@ class RosterGuestInfosFinal
 						
 						
 						
-						$thisAllInfos->data['name'] = $fetchGuestData['name_first'].' '.$fetchGuestData['name_last'];
+						$thisAllInfos->data['name'] = ucwords($fetchGuestData['name_first'].' '.$fetchGuestData['name_last']);
 						$thisAllInfos->data['rating'] = $fetchGuestData['rating'];
 						
 					
@@ -229,7 +230,7 @@ class RosterGuestInfosFinal
 				{
 					$thisAllInfos = new RosterMemberInfosFinal();
 					$thisAllInfos->data['cid'] = $thisMember['cid'];
-					$thisAllInfos->data['name'] = $thisMember['fname'].' '.$thisMember['lname'];
+					$thisAllInfos->data['name'] = ucwords($thisMember['fname'].' '.$thisMember['lname']);
 					$thisAllInfos->data['rating'] = $thisMember['rating'];
 					
 					if($thisAllInfos->data['rating'] >= 8)
@@ -257,6 +258,17 @@ class RosterGuestInfosFinal
 						}
 					}
 					
+					if(strlen($thisAllInfos->data['position']) == 0)
+					{
+						if($thisAllInfos->data['rating'] >= 2)
+						{
+							$thisAllInfos->data['position'] = '<small>Requires<br>Recertification</small>';
+						}
+						else
+						{
+							$thisAllInfos->data['position'] = 'In Training';
+						}
+					}
 					
 					$thisAllInfos->data['rating'] = $ratingNames[$thisAllInfos->data['rating']];
 					$thisAllInfos->data['active'] = ($thisAllInfos->data['active'] === true)? 'Oui': 'Non';
