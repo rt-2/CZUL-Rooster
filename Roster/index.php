@@ -7,6 +7,25 @@ error_reporting(E_ALL);
 //require_once(dirname(__FILE__).'/CANotAPI.inc.php');
 //require_once(dirname(__FILE__).'/resources/fir.data.inc.php');
 
+function curlGet($url)
+{
+	
+	
+	$curl = curl_init();
+
+	curl_setopt_array($curl, [
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => $url,
+		CURLOPT_USERAGENT => 'Codular Sample cURL Request',
+		CURLOPT_SSL_VERIFYPEER => false,
+	]);
+
+	$data = curl_exec($curl);
+
+	curl_close($curl);
+	return $data;
+}
+
 
 $ratingNames = [
 	'', // 0 (not used)
@@ -23,21 +42,8 @@ $ratingNames = [
 	'SUP', // 11
 ];
 
+$resp = curlGet('https://api.vatcan.ca/IF84l6Y1utjILKlk/roster');
 
-
-// Get cURL resource
-$curl = curl_init();
-// Set some options - we are passing in a useragent too here
-curl_setopt_array($curl, [
-    CURLOPT_RETURNTRANSFER => 1,
-    CURLOPT_URL => 'https://api.vatcan.ca/IF84l6Y1utjILKlk/roster',
-    CURLOPT_USERAGENT => 'Codular Sample cURL Request',
-	CURLOPT_SSL_VERIFYPEER => false,
-]);
-// Send the request & save response to $resp
-$resp = curl_exec($curl);
-// Close request to clear up some resources
-curl_close($curl);
 
 $allMembers = json_decode($resp)->facility->roster;
 $allMembers = json_decode(json_encode($allMembers), true);
@@ -50,6 +56,7 @@ $allInstructors = array();
 
 
 $allControllerTrainingStates = file_get_contents('../CONTROLLERS_TRAINING_STATE.data.json');
+//$allControllerTrainingStates = curlGet('https://raw.githubusercontent.com/rt-2/CZUL-Prod-Configs/master/Members/Controllers.data.json');
 $allControllerTrainingStates = json_decode($allControllerTrainingStates)->CONTROLLERS_TRAINING_STATE;
 $allControllerTrainingStates = json_decode(json_encode($allControllerTrainingStates), true);
 
@@ -95,7 +102,7 @@ class RosterGuestInfosFinal
     <meta charset="UTF-8">
     <title>Roster</title>
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
 	
 	<style>
 		body {
@@ -155,20 +162,9 @@ class RosterGuestInfosFinal
 						$thisAllInfos->data['cid'] = $cid;
 						
 						
-						// Get cURL resource
-						$curl = curl_init();
-						// Set some options - we are passing in a useragent too here
-						curl_setopt_array($curl, [
-							CURLOPT_RETURNTRANSFER => 1,
-							CURLOPT_URL => 'https://cert.vatsim.net/cert/vatsimnet/idstatusint.php?cid='.$thisAllInfos->data['cid'],
-							//CURLOPT_URL => 'https://api.vatcan.ca/IF84l6Y1utjILKlk/roster/1380757',
-							CURLOPT_USERAGENT => 'Codular Sample cURL Request',
-							CURLOPT_SSL_VERIFYPEER => false,
-						]);
-						// Send the request & save response to $resp
-						$resp = curl_exec($curl);
-						// Close request to clear up some resources
-						curl_close($curl);
+						$resp = curlGet('https://cert.vatsim.net/cert/vatsimnet/idstatusint.php?cid='.$thisAllInfos->data['cid']);
+
+						
 						$xml = simplexml_load_string($resp);
 						$json = json_encode($xml);
 						$array = json_decode($json,TRUE);
