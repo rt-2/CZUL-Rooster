@@ -42,7 +42,8 @@ $ratingNames = [
 	'SUP', // 11
 ];
 
-$resp = curlGet('https://api.vatcan.ca/IF84l6Y1utjILKlk/roster');
+
+$resp = curlGet('https://vatcan.ca/api/v1/facility/roster?api_key=XXXXXXXXXXXX');
 
 
 $allMembers = json_decode($resp)->facility->roster;
